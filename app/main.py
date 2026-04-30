@@ -4,7 +4,11 @@ app = FastAPI()
 router = APIRouter()
 
 @app.get("/")
-def root():
-    return {"message": "Hello World"}
+def home():
+    return {"status": "OK"}
+
+@router.get("/health")
+def health_check():
+    return {"status": "healthy"}
 
 app.include_router(router)

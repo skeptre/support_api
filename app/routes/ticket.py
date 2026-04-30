@@ -6,3 +6,5 @@ router = APIRouter()
 @router.get("/tickets")
 async def get_tickets() -> list[dict[str, Any]]:
     return []
+
+
