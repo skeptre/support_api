@@ -74,7 +74,7 @@ class TicketUpdate(BaseModel):
         examples= ["high"],
     )
 
-    @model_validator(mode="after")
+    @model_validator(mode="after") # this runs after all the above checks, we use this in ticket update to make sure that at least one field is provided for update otherwise returns self
     def validate_at_least_one_field(self):
         if (
             self.title is None
@@ -85,3 +85,10 @@ class TicketUpdate(BaseModel):
             raise ValueError("At least one field must be provided for update."
         )
         return self
+    
+class TicketListResponse(BaseModel):
+    tickets: list[TicketResponse]
+    total: int
+    page: int
+    limit: int
+    
