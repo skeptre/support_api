@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
 from datetime import datetime
 from enum import StrEnum
+
+from pydantic import BaseModel, Field, model_validator
+
 
 class TicketStatus(StrEnum):
     OPEN = "open"
@@ -71,3 +73,15 @@ class TicketUpdate(BaseModel):
         description= "The priority level of the ticket.",
         examples= ["high"],
     )
+
+    @model_validator(mode="after")
+    def validate_at_least_one_field(self):
+        if (
+            self.title is None
+            and self.description is None
+            and self.status is None
+            and self.priority is None
+        ):
+            raise ValueError("At least one field must be provided for update."
+        )
+        return self
