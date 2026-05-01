@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import StrEnum
 
+from fastapi import HTTPException
 from pydantic import BaseModel, Field, model_validator
 
 
@@ -82,8 +83,7 @@ class TicketUpdate(BaseModel):
             and self.status is None
             and self.priority is None
         ):
-            raise ValueError("At least one field must be provided for update."
-        )
+            raise HTTPException(status_code=400, detail="At least one field must be provided for update.")
         return self
     
 class TicketListResponse(BaseModel):
